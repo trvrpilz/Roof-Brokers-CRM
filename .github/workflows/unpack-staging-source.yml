@@ -1,0 +1,50 @@
+name: Import Roof Brokers staging source
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.staging/runtime/**'
+      - '.github/workflows/unpack-staging-source.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild and verify source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .staging/runtime/part-00
+          cat .staging/runtime/part-* | base64 -d > /tmp/roof-brokers-runtime.zip
+          echo "a574c2ac67cf6e9dd00713b06d4f6942d0519f7be44b9cb1f029dc20ea14bd3d  /tmp/roof-brokers-runtime.zip" | sha256sum -c -
+          mkdir -p /tmp/roof-brokers-runtime
+          unzip -q -o /tmp/roof-brokers-runtime.zip -d /tmp/roof-brokers-runtime
+          rsync -a /tmp/roof-brokers-runtime/ ./
+
+      - name: Clean import scaffolding
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .staging backend/.pytest_cache backend/__pycache__
+          rm -f .github/workflows/unpack-staging-source.yml
+          chmod +x backend/run.sh backend/backup_postgres.sh || true
+
+      - name: Commit imported source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Import Roof Brokers CRM 3.0 staging source"
+            git push
+          fi
