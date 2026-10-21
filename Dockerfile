@@ -20,6 +20,9 @@ RUN pip install --no-cache-dir -r requirements.txt \
 COPY --from=unpack /runtime/backend/app ./app
 COPY --from=unpack /runtime/backend/alembic.ini ./alembic.ini
 COPY --from=unpack /runtime/backend/alembic ./alembic
+COPY railway/migrations/20261020_0003_webhook_retries.py ./alembic/versions/20261020_0003_webhook_retries.py
+COPY railway/migrations/20261020_0004_offline_visit_idempotency.py ./alembic/versions/20261020_0004_offline_visit_idempotency.py
+COPY railway/migrations/20261020_0005_webhook_scope_and_limits.py ./alembic/versions/20261020_0005_webhook_scope_and_limits.py
 COPY --from=unpack /runtime/backend/scripts ./scripts
 COPY --from=unpack /runtime/backend/run.sh ./run.sh
 COPY --from=unpack /runtime/web /srv/web
