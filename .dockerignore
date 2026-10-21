@@ -1,0 +1,11 @@
+.git
+.github
+.env
+*.db
+*.sqlite*
+__pycache__/
+.pytest_cache/
+.venv/
+ios/
+sample-inspection-report.pdf
+roof-brokers-crm-deploy-ready.zip
