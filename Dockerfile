@@ -14,7 +14,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 COPY --from=unpack /runtime/backend/requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir psycopg2-binary==2.9.11
 
 COPY --from=unpack /runtime/backend/app ./app
 COPY --from=unpack /runtime/backend/alembic.ini ./alembic.ini
