@@ -10,7 +10,7 @@ COPY .staging/authreset33/apply.py /unpack/authreset33_apply.py
 COPY .staging/authreset33/hash_patch.py /unpack/authreset33_hash_patch.py
 COPY .staging/repux331 /unpack/repux331
 COPY .staging/pipeline34/apply.py /unpack/pipeline34_apply.py
-COPY .staging/authzprobe/apply.py /unpack/authzprobe_apply.py
+COPY .staging/authz35/apply.py /unpack/authz35_apply.py
 RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && echo "a574c2ac67cf6e9dd00713b06d4f6942d0519f7be44b9cb1f029dc20ea14bd3d  /tmp/roof-brokers-runtime.zip" | sha256sum -c - \
     && cat /unpack/auth31/part-* | base64 -d > /tmp/roof-brokers-auth31.zip \
@@ -34,7 +34,7 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && python /unpack/authreset33_hash_patch.py \
     && python -m zipfile -e /tmp/roof-brokers-repux331.zip /runtime \
     && python /unpack/pipeline34_apply.py \
-    && python /unpack/authzprobe_apply.py \
+    && python /unpack/authz35_apply.py \
     && python -m compileall -q /runtime/backend/app /runtime/backend/scripts
 
 FROM python:3.12-slim
@@ -54,6 +54,7 @@ COPY --from=unpack /runtime/backend/alembic ./alembic
 COPY railway/migrations/20261020_0003_webhook_retries.py ./alembic/versions/20261020_0003_webhook_retries.py
 COPY railway/migrations/20261020_0004_offline_visit_idempotency.py ./alembic/versions/20261020_0004_offline_visit_idempotency.py
 COPY railway/migrations/20261020_0005_webhook_scope_and_limits.py ./alembic/versions/20261020_0005_webhook_scope_and_limits.py
+COPY railway/migrations/20261025_0008_lead_assignment.py ./alembic/versions/20261025_0008_lead_assignment.py
 COPY --from=unpack /runtime/backend/scripts ./scripts
 COPY --from=unpack /runtime/backend/run.sh ./run.sh
 COPY --from=unpack /runtime/web /srv/web
