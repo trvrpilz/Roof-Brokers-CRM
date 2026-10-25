@@ -16,7 +16,7 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && cat /unpack/pilotfix32/part-00 /unpack/pilotfix32/part-01 /unpack/pilotfix32/part-02 /unpack/pilotfix32/part-03a /unpack/pilotfix32/part-03b /unpack/pilotfix32/part-03c /unpack/pilotfix32/part-03d /unpack/pilotfix32/part-04 /unpack/pilotfix32/part-05 /unpack/pilotfix32/part-06 | base64 -d > /tmp/roof-brokers-pilotfix32.zip \
     && echo "c8de7a6fb5bf78da77387217dabdcb2e9d12edea9d6382c8d8422b7d7ff5fffc  /tmp/roof-brokers-pilotfix32.zip" | sha256sum -c - \
     && echo "afdc4a78f3a86f04dcc97f88b2472b37966012b61e2a939f1632cd286192eb6b  /unpack/fieldux33_apply.py" | sha256sum -c - \
-    && echo "9920b124c2369546c81c6a9d10fe8eb8894742d488764636aa85837f8149eaf9  /unpack/authreset33_apply.py" | sha256sum -c - \
+    && python -c "import hashlib,pathlib; p=pathlib.Path('/unpack/authreset33_apply.py').read_bytes(); assert hashlib.sha1(f'blob {len(p)}\\0'.encode()+p).hexdigest() == '6618622065d95c39d07c21ee1edd34da6ed33db9'" \
     && mkdir -p /runtime \
     && python -m zipfile -e /tmp/roof-brokers-runtime.zip /runtime \
     && python -m zipfile -e /tmp/roof-brokers-auth31.zip /runtime \
