@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>Roof Brokers</string>
+    <key>CFBundleName</key>
+    <string>Roof Brokers</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>UILaunchScreen</key>
+    <dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>NSCameraUsageDescription</key>
+    <string>Roof Brokers uses the camera to capture roof inspection and property photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Roof Brokers uses your photo library to attach inspection and property photos to leads.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Roof Brokers may save inspection photos to your photo library when you choose to do so.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Roof Brokers uses your location while you are using the app to support field mapping and inspection records.</string>
+</dict>
+</plist>
