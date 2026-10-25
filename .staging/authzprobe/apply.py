@@ -13,7 +13,17 @@ for cls in ('User','Lead'):
     print(f'--- AUTHZ PROBE {cls} ---')
     print((m.group(0)[:5000] if m else 'NOT FOUND'))
 
-for pattern in (r"@app\.get\('/api/leads'\).*?(?=\n@app\.|\Z)", r"@app\.get\('/api/leads/\{.*?(?=\n@app\.|\Z)", r"@app\.post\('/api/leads'\).*?(?=\n@app\.|\Z)", r"def\s+current_user.*?(?=\ndef\s+|\n@app\.|\Z)"):
-    m=re.search(pattern, main, re.S)
-    print('--- AUTHZ PROBE ROUTE ---')
-    print((m.group(0)[:8000] if m else 'NOT FOUND'))
+patterns=(
+ r"def\s+tenant_lead.*?(?=\ndef\s+|\n@app\.|\Z)",
+ r"@app\.get\('/api/leads'\).*?(?=\n@app\.|\Z)",
+ r"@app\.get\('/api/leads/\{.*?(?=\n@app\.|\Z)",
+ r"@app\.post\('/api/leads'\).*?(?=\n@app\.|\Z)",
+ r"class\s+User[^\n]*In.*?(?=\nclass\s+|\n@app\.|\Z)",
+ r"@app\.(?:get|post|patch|put|delete)\('/api/users[^']*'\).*?(?=\n@app\.|\Z)",
+ r"def\s+require_owner.*?(?=\ndef\s+|\n@app\.|\Z)",
+ r"def\s+current_user.*?(?=\ndef\s+|\n@app\.|\Z)",
+)
+for pattern in patterns:
+    for m in re.finditer(pattern, main, re.S):
+        print('--- AUTHZ PROBE ROUTE ---')
+        print(m.group(0)[:12000])
