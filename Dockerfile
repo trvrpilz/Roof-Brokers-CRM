@@ -8,6 +8,7 @@ COPY .staging/pilotfix32 /unpack/pilotfix32
 COPY .staging/fieldux33/apply.py /unpack/fieldux33_apply.py
 COPY .staging/authreset33/apply.py /unpack/authreset33_apply.py
 COPY .staging/authreset33/hash_patch.py /unpack/authreset33_hash_patch.py
+COPY .staging/repux331 /unpack/repux331
 RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && echo "a574c2ac67cf6e9dd00713b06d4f6942d0519f7be44b9cb1f029dc20ea14bd3d  /tmp/roof-brokers-runtime.zip" | sha256sum -c - \
     && cat /unpack/auth31/part-* | base64 -d > /tmp/roof-brokers-auth31.zip \
@@ -19,6 +20,8 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && echo "afdc4a78f3a86f04dcc97f88b2472b37966012b61e2a939f1632cd286192eb6b  /unpack/fieldux33_apply.py" | sha256sum -c - \
     && python -c "import hashlib,pathlib; p=pathlib.Path('/unpack/authreset33_apply.py').read_bytes(); assert hashlib.sha1(f'blob {len(p)}\\0'.encode()+p).hexdigest() == '6618622065d95c39d07c21ee1edd34da6ed33db9'" \
     && echo "0a1cadd241d716645e87e18624fdd9f162521c4e290e6fcea81e84bdc3895835  /unpack/authreset33_hash_patch.py" | sha256sum -c - \
+    && cat /unpack/repux331/part-00 /unpack/repux331/part-01 /unpack/repux331/part-02 /unpack/repux331/part-03a /unpack/repux331/part-03b /unpack/repux331/part-04a /unpack/repux331/part-04b /unpack/repux331/part-05a /unpack/repux331/part-05b /unpack/repux331/part-06a /unpack/repux331/part-06b | base64 -d > /tmp/roof-brokers-repux331.zip \
+    && echo "139be9d6efc1058f93ca958bf6b235a6b5b15baa1b31699bc841d7d122caf843  /tmp/roof-brokers-repux331.zip" | sha256sum -c - \
     && mkdir -p /runtime \
     && python -m zipfile -e /tmp/roof-brokers-runtime.zip /runtime \
     && python -m zipfile -e /tmp/roof-brokers-auth31.zip /runtime \
@@ -27,6 +30,7 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && python /unpack/fieldux33_apply.py \
     && python /unpack/authreset33_apply.py \
     && python /unpack/authreset33_hash_patch.py \
+    && python -m zipfile -e /tmp/roof-brokers-repux331.zip /runtime \
     && python -m compileall -q /runtime/backend/app /runtime/backend/scripts
 
 FROM python:3.12-slim
