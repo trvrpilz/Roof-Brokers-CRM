@@ -5,11 +5,14 @@
     <key>CFBundleDisplayName</key>
     <string>Roof Brokers</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
+    <string>$(MARKETING_VERSION)</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
     <key>UILaunchScreen</key>
-    <dict/>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchBackground</string>
+    </dict>
     <key>NSCameraUsageDescription</key>
     <string>Roof Brokers uses the camera to capture inspection and property photos.</string>
     <key>NSPhotoLibraryUsageDescription</key>
@@ -24,5 +27,7 @@
         <string>UIInterfaceOrientationLandscapeLeft</string>
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 </dict>
 </plist>
