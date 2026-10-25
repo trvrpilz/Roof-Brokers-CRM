@@ -11,7 +11,7 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && echo "56c80f162f355460b679ef2f3c1c015c56f57b0f79ab20ea4c3f19519b1baec3  /tmp/roof-brokers-auth31.zip" | sha256sum -c - \
     && cat /unpack/hardening32/part-* | base64 -d > /tmp/roof-brokers-hardening32.zip \
     && echo "66f8e627c68f358b196ec3692ac27029d298d2f96bdc04b6a55a30b3a73f61b5  /tmp/roof-brokers-hardening32.zip" | sha256sum -c - \
-    && cat /unpack/pilotfix32/part-* | base64 -d > /tmp/roof-brokers-pilotfix32.zip \
+    && cat /unpack/pilotfix32/part-00 /unpack/pilotfix32/part-01 /unpack/pilotfix32/part-02 /unpack/pilotfix32/part-03a /unpack/pilotfix32/part-03b /unpack/pilotfix32/part-03c /unpack/pilotfix32/part-03d /unpack/pilotfix32/part-04 /unpack/pilotfix32/part-05 /unpack/pilotfix32/part-06 | base64 -d > /tmp/roof-brokers-pilotfix32.zip \
     && echo "c8de7a6fb5bf78da77387217dabdcb2e9d12edea9d6382c8d8422b7d7ff5fffc  /tmp/roof-brokers-pilotfix32.zip" | sha256sum -c - \
     && mkdir -p /runtime \
     && python -m zipfile -e /tmp/roof-brokers-runtime.zip /runtime \
