@@ -1,0 +1,1 @@
+Security baseline inherited from main at branch creation: owner-only user management, owner company-wide lead visibility, non-owner access restricted to assigned leads, and five-stage pipeline Lead/Prospect/Approved/Completed/Invoiced.
