@@ -1,0 +1,21 @@
+name: CRM Backend Build
+on:
+  push:
+    branches:
+      - fix-lead-visibility-owner-assignment
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - '.staging/**'
+      - 'railway/migrations/**'
+      - '.github/workflows/crm-build.yml'
+  workflow_dispatch:
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build CRM container and validate runtime patches
+        run: docker build --progress=plain --tag roof-brokers-crm:ci .
