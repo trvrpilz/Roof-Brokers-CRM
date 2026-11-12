@@ -53,6 +53,7 @@ helper=main[helper_start:helper_end]
 body=main[:helper_start]+main[helper_end:]
 body=body.replace(base_query, "visible_leads_query(db,u)")
 main=body[:helper_start]+helper+body[helper_start:]
+assert base_query in helper and "q=visible_leads_query(db,u)" not in helper, "lead visibility helper must remain non-recursive"
 
 old_create="""@app.post('/api/leads')
 def secure_create_lead(data:LeadIn,u:User=Depends(current_user),db:Session=Depends(get_db)):
