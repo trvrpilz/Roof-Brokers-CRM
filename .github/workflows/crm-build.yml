@@ -2,13 +2,15 @@ name: CRM Backend Build
 on:
   push:
     branches:
-      - fix-lead-visibility-owner-assignment
+      - main
+      - test-lead-role-isolation
   pull_request:
     paths:
       - 'Dockerfile'
       - '.staging/**'
       - 'railway/migrations/**'
       - '.github/workflows/crm-build.yml'
+      - 'tests/role_access_runtime.py'
   workflow_dispatch:
 jobs:
   docker-build:
@@ -19,3 +21,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build CRM container and validate runtime patches
         run: docker build --progress=plain --tag roof-brokers-crm:ci .
+      - name: Test owner and representative permissions without live data
+        run: docker run --rm --entrypoint python -v "$PWD/tests:/tests:ro" roof-brokers-crm:ci /tests/role_access_runtime.py
