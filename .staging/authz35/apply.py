@@ -44,7 +44,15 @@ def tenant_lead(db:Session,u:User,lead_id:str):
 main=replace_once(main,old_tenant,new_tenant,'tenant lead guard')
 
 # Replace every company-wide Lead query with the visibility-scoped helper.
-main=main.replace("db.query(Lead).filter(Lead.company_id==u.company_id)", "visible_leads_query(db,u)")
+# Scope existing company-wide queries without rewriting the helper's own base query.
+# The prior global replace made visible_leads_query call itself recursively.
+base_query="db.query(Lead).filter(Lead.company_id==u.company_id)"
+helper_start=main.index("def visible_leads_query(")
+helper_end=main.index("\ndef tenant_lead(",helper_start)
+helper=main[helper_start:helper_end]
+body=main[:helper_start]+main[helper_end:]
+body=body.replace(base_query, "visible_leads_query(db,u)")
+main=body[:helper_start]+helper+body[helper_start:]
 
 old_create="""@app.post('/api/leads')
 def secure_create_lead(data:LeadIn,u:User=Depends(current_user),db:Session=Depends(get_db)):
