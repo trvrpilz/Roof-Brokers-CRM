@@ -131,7 +131,7 @@ rejects(400, lambda: assign('one', SimpleNamespace(assigned_user_id='inactive'),
 assert assign('one', SimpleNamespace(assigned_user_id='rep-b'), owner, db)['assigned_user_id'] == 'rep-b'
 assert {x.id for x in visible(db, rep_a).all()} == set()
 assert {x.id for x in visible(db, rep_b).all()} == {'one', 'two'}
-assert len(get_users(owner, db)) == 5
+assert len(get_users(owner, db)) == 4
 rejects(400, lambda: create_user(SimpleNamespace(name='No', email='owner2@example.test', role='OWNER'), owner, db))
 
 # The FastAPI Depends(require_roles('OWNER')) wrapper is part of the security
