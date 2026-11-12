@@ -11,6 +11,7 @@ COPY .staging/authreset33/hash_patch.py /unpack/authreset33_hash_patch.py
 COPY .staging/repux331 /unpack/repux331
 COPY .staging/pipeline34/apply.py /unpack/pipeline34_apply.py
 COPY .staging/authz35/apply.py /unpack/authz35_apply.py
+COPY .staging/owner_assignment36/apply.py /unpack/owner_assignment36_apply.py
 RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && echo "a574c2ac67cf6e9dd00713b06d4f6942d0519f7be44b9cb1f029dc20ea14bd3d  /tmp/roof-brokers-runtime.zip" | sha256sum -c - \
     && cat /unpack/auth31/part-* | base64 -d > /tmp/roof-brokers-auth31.zip \
@@ -35,6 +36,7 @@ RUN cat /unpack/chunks/part-* | base64 -d > /tmp/roof-brokers-runtime.zip \
     && python -m zipfile -e /tmp/roof-brokers-repux331.zip /runtime \
     && python /unpack/pipeline34_apply.py \
     && python /unpack/authz35_apply.py \
+    && python /unpack/owner_assignment36_apply.py \
     && python -m compileall -q /runtime/backend/app /runtime/backend/scripts
 
 FROM python:3.12-slim
