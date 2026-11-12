@@ -140,7 +140,10 @@ script = r"""
   // Existing app sets currentUser after authentication; do not ask rep accounts
   // for the owner-only /api/users endpoint.
   const check = setInterval(() => {
-    if (initialized) { clearInterval(check); return; }
+    if (initialized || (typeof currentUser !== 'undefined' && currentUser && !owner())) {
+      clearInterval(check);
+      return;
+    }
     initialize();
   }, 500);
   document.addEventListener('visibilitychange', () => {
