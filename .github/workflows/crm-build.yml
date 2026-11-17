@@ -11,6 +11,8 @@ on:
       - 'railway/migrations/**'
       - '.github/workflows/crm-build.yml'
       - 'tests/role_access_runtime.py'
+      - 'tests/storm_mapping_runtime.py'
+      - 'tests/storm_mapping_ui.cjs'
   workflow_dispatch:
 jobs:
   docker-build:
@@ -23,3 +25,10 @@ jobs:
         run: docker build --progress=plain --tag roof-brokers-crm:ci .
       - name: Test owner and representative permissions without live data
         run: docker run --rm --entrypoint python -v "$PWD/tests:/tests:ro" roof-brokers-crm:ci /tests/role_access_runtime.py
+      - name: Test NOAA storm reports without live data
+        run: docker run --rm --entrypoint python -v "$PWD/tests:/tests:ro" roof-brokers-crm:ci /tests/storm_mapping_runtime.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test NOAA map controls
+        run: node tests/storm_mapping_ui.cjs
